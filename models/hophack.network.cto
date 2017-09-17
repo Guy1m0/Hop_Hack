@@ -1,0 +1,51 @@
+/**
+ * Write your model definitions here
+ */
+
+namespace hophack.network
+
+participant Patient identified by patientId {
+  o String patientId
+  o String name
+  o String[] medicalHistory optional
+  --> Record[] records optional
+}
+
+participant Doctor identified by doctorId {
+  o String doctorId
+  o String name
+  o String position
+  --> Patient[] patients optional
+}
+
+asset Record identified by recordId {
+  o String recordId
+  o String billingAddress
+  o Double balance
+  o String diagnoses
+  o DateTime date
+  --> Doctor[] doctors
+  --> Patient[] patients
+}
+
+transaction AddDoctor {
+  o String doctorId
+  o String name
+  o String position
+  --> Patient[] patients optional
+}
+
+transaction ModPatient {
+  o String patientId
+  o String attribute
+  o String value
+}
+
+transaction ModDoctorPatient {
+  o String doctorId
+  --> Patient[] patients
+}
+
+transaction DelDoctor {
+  o String doctorId
+}
